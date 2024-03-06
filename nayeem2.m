@@ -1,0 +1,345 @@
+function []=nayeem()
+load('Data_Year.mat');
+fprintf('ENCMP100 Assignment #4A Fitness Data Display\n');
+fprintf('Anaylsed by Student Name (ccid)\n');
+for i=1:size(Data,2)
+    Totals(i,:)=ConvertAndSum(Data(i));
+end
+save('Total.mat','Totals');
+GenPlots(Totals);
+Stats = GenStats(Totals);
+PrintData(Totals,Stats);
+Monthly = ConvertAndSum_Monthly(Totals);
+save('n_Monthly.mat','Monthly');
+StatsMonthly = GenStatsMonthly(Monthly);
+PrintMonthlyData(Monthly,StatsMonthly);
+end
+function [Totals] = ConvertAndSum(Data)
+Totals.Month=Data.Month;
+Totals.Day=Data.Day;
+Totals.Year=Data.Year;
+Totals.Steps=Data.Steps;
+Totals.Distance=Data.Steps*0.0006;
+Totals.Floors=Data.Floors;
+Totals.Sleep_Hours=Data.Sleep_Hours+Data.Sleep_Minutes/60+Data.Nap_Hours+Data.Nap_Minutes/60;
+Totals.RestingHR=Data.RestingHR;
+
+end
+function []=GenPlots(Totals)
+
+for i=1:1:31
+    s1(i)=Totals(i).Sleep_Hours;
+    d1(i)=Totals(i).Day;
+    st1(i)=Totals(i).Steps;
+    f1(i)=Totals(i).Floors;
+    r1(i)=Totals(i).RestingHR;
+end
+
+subplot(1,4,1), plot(d1,s1,'g'), title('Sleep'), xlabel('Days'), ylabel('Sleep'), subplot(1,4,2), plot(d1,st1,'b'), title('Steps'), xlabel('Days'), ylabel('Steps'), subplot(1,4,3), plot(d1,f1,'r'), title('Floors'), xlabel('Day'), ylabel('Floors'), subplot(1,4,4), plot(d1,r1,'y'), title('Heart Beat'), xlabel('Days'), ylabel('Heart Beat');
+end
+function [Stats]=GenStats(Totals)
+Stats.minsl=min([Totals(:).Sleep_Hours]);
+Stats.minst=min([Totals(:).Steps]);
+Stats.minfl=min([Totals(:).Floors]);
+Stats.maxsl=max([Totals(:).Sleep_Hours]);
+Stats.maxst=max([Totals(:).Steps]);
+Stats.maxfl=max([Totals(:).Floors]);
+Stats.meansl=mean([Totals(:).Sleep_Hours]);
+Stats.meanst=mean([Totals(:).Steps]);
+Stats.meanfl=mean([Totals(:).Floors]);
+end
+function []=PrintData(Totals,Stats)
+ fprintf('Month   Day   Year   Steps   Distance   Floors      Sleep   Resting HR\n');
+for i=1:1:31
+ fprintf('%s    %d     %d   %d    %f   %f   %f   %f\n',Totals(i).Month,Totals(i).Day,Totals(i).Year,Totals(i).Steps,Totals(i).Distance,Totals(i).Floors,Totals(i).Sleep_Hours,Totals(i).RestingHR);
+end
+ fprintf('Min value\n       Sleep(Hours): %f    Step:  %f Floors climbed:  %f \n',Stats.minsl,Stats.minst,Stats.minfl);
+ fprintf('Max value\n       Sleep(Hours): %f    Step:  %f Floors climbed:  %f \n',Stats.maxsl,Stats.maxst,Stats.maxfl);
+ fprintf('Mean value\n      Sleep(Hours): %f   Step:  %f Floors climbed:  %f \n',Stats.meansl,Stats.meanst,Stats.meanfl);
+end
+
+function [Monthly]= ConvertAndSum_Monthly(TotalsDaily)
+
+            
+for j=1:1:12
+    if j==1
+            Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+      for i=1:1:31
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+            
+      end
+    elseif j==2
+        Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=32:1:59
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=28;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/28;
+        end
+    elseif j==3
+        Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=60:1:90
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+        elseif j==4
+            Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=91:1:120
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=30;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/30;
+        end
+          elseif j==5
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=121:1:151
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+          elseif j==6
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=152:1:181
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=30;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/30;
+        end
+          elseif j==7
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=182:1:212
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+          elseif j==8
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=213:1:243
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+          elseif j==9
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=244:1:273
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=30;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/30;
+        end
+          elseif j==10
+              Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=274:1:304
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+            Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+      elseif j==11
+          Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=305:1:334
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=30;
+            Monthly(j).Year=2018;
+           Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/30;
+        end
+        elseif j==12
+            Steps=0;
+            Distance=0;
+            Floors=0;
+            Sleep=0;
+            RestingHR=0;
+        for i=335:1:365
+            Monthly(j).Month=TotalsDaily(i).Month;
+            Monthly(j).Day=31;
+            Monthly(j).Year=2018;
+Steps=Steps+TotalsDaily(i).Steps;
+            Distance=Distance+TotalsDaily(i).Distance;
+            Floors=Floors+TotalsDaily(i).Floors;
+            Sleep=Sleep+TotalsDaily(i).Sleep_Hours;
+            RestingHR=RestingHR+TotalsDaily(i).RestingHR;
+            Monthly(j).Steps=Steps;
+            Monthly(j).Distance=Distance;
+            Monthly(j).Floors=Floors;
+            Monthly(j).Sleep=Sleep;
+            Monthly(j).RestingHR=RestingHR/31;
+        end
+    else
+        fprintf('error');
+      
+   
+            
+    end
+end
+end
+function []=PrintMonthlyData(TotalsMonth,StatsMonthly)
+fprintf('Month     Day    Year    Steps    Distance     Floors       Sleep        Resting HR\n');
+for i=1:1:12 
+ fprintf('%s      %d     %d   %d    %f   %f   %f   %f\n',TotalsMonth(i).Month,TotalsMonth(i).Day,TotalsMonth(i).Year,TotalsMonth(i).Steps,TotalsMonth(i).Distance,TotalsMonth(i).Floors,TotalsMonth(i).Sleep,TotalsMonth(i).RestingHR);
+end
+fprintf('Min value monthly\n       Sleep(Hours): %f    Step:  %f Floors climbed:  %f \n',StatsMonthly.minsl,StatsMonthly.minst,StatsMonthly.minfl);
+ fprintf('Max value monthly\n       Sleep(Hours): %f    Step:  %f Floors climbed:  %f \n',StatsMonthly.maxsl,StatsMonthly.maxst,StatsMonthly.maxfl);
+ fprintf('Mean value monthly\n      Sleep(Hours): %f   Step:  %f Floors climbed:  %f \n',StatsMonthly.meansl,StatsMonthly.meanst,StatsMonthly.meanfl);
+end
+function [StatsMonthly]=GenStatsMonthly(Monthly)
+StatsMonthly.minsl=min([Monthly(:).Sleep]);
+StatsMonthly.minst=min([Monthly(:).Steps]);
+StatsMonthly.minfl=min([Monthly(:).Floors]);
+StatsMonthly.maxsl=max([Monthly(:).Sleep]);
+StatsMonthly.maxst=max([Monthly(:).Steps]);
+StatsMonthly.maxfl=max([Monthly(:).Floors]);
+StatsMonthly.meansl=mean([Monthly(:).Sleep]);
+StatsMonthly.meanst=mean([Monthly(:).Steps]);
+StatsMonthly.meanfl=mean([Monthly(:).Floors]);
+end
